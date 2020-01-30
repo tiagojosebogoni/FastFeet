@@ -10,21 +10,22 @@ class User extends Model {
         email: Sequelize.STRING,
         password_hash: Sequelize.STRING,
       },
-      {
-        hooks: {
-          beforeSave: async user => {
-            if (user.password) {
-              user.password_hash = await bcrypt.hash(user.password, 8);
-            }
-          },
-        },
-      },
       { sequelize }
     );
+
+    this.addHook('beforeSave', async user => {
+      if (user.password) {
+        user.password_hash = await bcrypt.hash(user.password, 8);
+      }
+    });
   }
 
   generateToken() {
     return jwt.sign({ id: this.id }, process.env.APP_SECRET);
+  }
+
+  checkPassword(password) {
+    return bcrypt.compare(password, this.password_hash);
   }
 }
 
