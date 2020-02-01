@@ -9,24 +9,33 @@ import FileController from './app/controllers/FileController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliveryManController from './app/controllers/DeliveryManController';
 import DeliveryController from './app/controllers/DeliveryController';
+import ViewDeliveryController from './app/controllers/ViewDeliveryController';
 
 const routes = new Router();
 
 const upload = multer(multerConfig);
 
+routes.get('/deliveryman/:id/deliveries', ViewDeliveryController.index);
+routes.get(
+  '/deliveryman/:id/deliveries/:finaled',
+  ViewDeliveryController.finaled
+);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
+// Destinatário
 routes.post('/recipients', RecipientController.store);
 routes.get('/recipients', RecipientController.index);
 
 routes.post('/files', upload.single('file'), FileController.store);
 
+// CRUD entregadores
 routes.post('/deliverymans', DeliveryManController.store);
 routes.get('/deliverymans', DeliveryManController.index);
 routes.put('/deliverymans/:id', DeliveryManController.update);
 routes.delete('/deliverymans/:id', DeliveryManController.delete);
 
+// CRUD entregas
 routes.post('/deliveries', DeliveryController.store);
 routes.get('/deliveries/', DeliveryController.index);
 routes.put('/deliveries/:id', DeliveryController.update);
