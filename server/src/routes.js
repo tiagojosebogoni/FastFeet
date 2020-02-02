@@ -10,6 +10,7 @@ import RecipientController from './app/controllers/RecipientController';
 import DeliveryManController from './app/controllers/DeliveryManController';
 import DeliveryController from './app/controllers/DeliveryController';
 import ViewDeliveryController from './app/controllers/ViewDeliveryController';
+import WithdrawDeliveryController from './app/controllers/WithdrawDeliveryController';
 
 const routes = new Router();
 
@@ -20,6 +21,12 @@ routes.get(
   '/deliveryman/:id/deliveries/:finaled',
   ViewDeliveryController.finaled
 );
+
+routes.put(
+  '/deliveryman/:idDeliveryman/deliveries/:idDelivery',
+  WithdrawDeliveryController.update
+);
+
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
