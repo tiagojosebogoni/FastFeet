@@ -41,6 +41,30 @@ class WithdrawDeliveryController {
 
     return res.json(delivery);
   }
+
+  async finaledDelivery(req, res) {
+    const { idDeliveryman } = req.params;
+    const { idDelivery } = req.params;
+
+    const deliveryExists = await Delivery.findOne({
+      where: {
+        id: idDelivery,
+        deliveryman_id: idDeliveryman,
+        canceled_at: null,
+        end_date: null,
+      },
+    });
+
+    if (!deliveryExists)
+      return res.status(400).send({ error: 'Encomenda não encontrada' });
+
+    const end_date = new Date();
+
+    const delivery = await Delivery.findByPk(idDelivery);
+    await delivery.update({ end_date });
+
+    return res.json(delivery);
+  }
 }
 
 export default new WithdrawDeliveryController();

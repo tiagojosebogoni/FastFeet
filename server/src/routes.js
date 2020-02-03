@@ -11,6 +11,7 @@ import DeliveryManController from './app/controllers/DeliveryManController';
 import DeliveryController from './app/controllers/DeliveryController';
 import ViewDeliveryController from './app/controllers/ViewDeliveryController';
 import WithdrawDeliveryController from './app/controllers/WithdrawDeliveryController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 const routes = new Router();
 
@@ -27,9 +28,19 @@ routes.put(
   WithdrawDeliveryController.update
 );
 
+// rota não terminada e não testada, deve permitir o envio de uma imagae signature
+routes.put(
+  '/deliveryman/:idDeliveryman/deliveries/:idDelivery/finaled',
+  WithdrawDeliveryController.finaledDelivery
+);
+
+routes.get('/deliveryProblems', DeliveryProblemController.index);
+routes.get('/delivery/:id/problems', DeliveryProblemController.show);
+routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
+
 // Destinatário
 routes.post('/recipients', RecipientController.store);
 routes.get('/recipients', RecipientController.index);
@@ -47,5 +58,7 @@ routes.post('/deliveries', DeliveryController.store);
 routes.get('/deliveries/', DeliveryController.index);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
+
+routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete); // falta mandar email
 
 export default routes;
