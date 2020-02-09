@@ -1,6 +1,11 @@
 import Delivery from '../models/Delivery';
-import DeliveryMan from '../models/Deliveryman';
+
 import DeliveryProblem from '../models/DeliveryProblem';
+import Recipient from '../models/Recipient';
+import Deliveryman from '../models/Deliveryman';
+import CancelDelivery from '../jobs/CancelDelivery';
+
+import Queue from '../../lib/Queue';
 
 class DeliveryController {
   async show(req, res) {
@@ -39,16 +44,39 @@ class DeliveryController {
 
   async delete(req, res) {
     const { id } = req.params;
-    const deliveryProblem = await DeliveryProblem.findByPk(id);
+    const deliveryProblem = await DeliveryProblem.findByPk(id, {
+      include: [
+        {
+          model: Delivery,
+          as: 'deliveries',
+          include: [
+            {
+              model: Recipient,
+              as: 'recipients',
+              attributes: ['name'],
+            },
+            {
+              model: Deliveryman,
+              as: 'deliverymans',
+              attributes: ['name', 'email'],
+            },
+          ],
+          attributes: ['product'],
+        },
+      ],
+      attributes: ['id', 'delivery_id', 'description'],
+    });
 
     if (!deliveryProblem)
       return res.status(400).send({ error: 'Problema não encontrado' });
 
     await deliveryProblem.destroy();
 
-    // tem que mandar email
+    await Queue.add(CancelDelivery.key, {
+      deliveryProblem,
+    });
 
-    return res.json();
+    return res.json(deliveryProblem);
   }
 }
 

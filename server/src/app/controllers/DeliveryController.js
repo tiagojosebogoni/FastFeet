@@ -3,6 +3,9 @@ import DeliveryMan from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
 
+import NewRecipient from '../jobs/NewRecipient';
+import Queue from '../../lib/Queue';
+
 class DeliveryController {
   async index(req, res) {
     const deliveries = await Delivery.findAll({
@@ -42,6 +45,10 @@ class DeliveryController {
     });
 
     // do enviar email
+    await Queue.add(NewRecipient.key, {
+      deliveryManExists,
+      recipientExists,
+    });
     return res.json(delivery);
   }
 

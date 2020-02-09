@@ -59,6 +59,6 @@ routes.get('/deliveries/', DeliveryController.index);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
 
-routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete); // falta mandar email
+routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete);
 
 export default routes;
