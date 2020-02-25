@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from '@unform/web';
 import logo from '../../assets/logo.png';
-import Input from '../../components/TInput';
+import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { signInRequest } from '../../store/modules/auth/actions';
 
