@@ -22,6 +22,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+
   thead th {
     color: #444;
     font-size: 16px;
@@ -38,20 +39,6 @@ export const Table = styled.table`
       padding: 12px 0;
       :nth-child(1) {
         text-align: left;
-      }
-      .edit {
-        border: 0;
-        font-size: 15px;
-        color: #4d85ee;
-        background: #fff;
-        margin: 0 30px 0 10px;
-      }
-      .remove {
-        border: 0;
-        font-size: 15px;
-        color: #de3b3b;
-        background: #fff;
-        margin: 0 30px 0 10px;
       }
     }
   }

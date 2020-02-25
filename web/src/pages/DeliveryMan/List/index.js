@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
+import api from '../../../services/api';
 
 export default function List() {
+  const [deliveryMans, setDeliveryMans] = useState([]);
+
+  async function loadDeliveryMan() {
+    const response = await api.get('deliverymans');
+
+    setDeliveryMans(response.data);
+  }
+
+  useEffect(() => {
+    loadDeliveryMan();
+  });
+
   function handleNew() {}
-  function loadDeliveryMan() {}
 
   return (
     <Container>
@@ -27,15 +39,16 @@ export default function List() {
             </tr>
           </thead>
           <tbody>
-            {/* {deliveries.map(delivery => ( */}
-            <tr key="delivery.id">
-              <td>delivery.deliverymans.photo</td>
-              <td>delivery.recipients.name</td>
-              <td>delivery.email</td>
+            {deliveryMans.map(deliveryMan => (
+              <tr key={deliveryMan.id}>
+                <td>#{deliveryMan.id}</td>
+                <td />
+                <td>{deliveryMan.name}</td>
+                <td>{deliveryMan.email}</td>
 
-              <td>ações</td>
-            </tr>
-            {/* ))} */}
+                <td>ações</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         {/* <Pagination load={loadPlans} pages={pages} /> */}
