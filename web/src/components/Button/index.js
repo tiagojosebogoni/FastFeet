@@ -14,9 +14,9 @@ export default function Button({ text, children, ...rest }) {
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  children: PropTypes.element,
+  children: PropTypes.element
 };
 
 Button.defaultProps = {
-  children: null,
+  children: null
 };
