@@ -10,7 +10,7 @@ export const Header = styled.div`
   align-items: flex-start;
 `;
 
-export const Title = styled.p`
+export const Title = styled.h1`
   font-weight: bold;
   font-size: 24px;
   color: #444444;

@@ -6,6 +6,7 @@ import SignIn from '../pages/SignIn';
 import ListDelivery from '../pages/Delivery/List';
 import ListDeliveryMan from '../pages/DeliveryMan/List';
 import ListRecipient from '../pages/Recipient/List';
+import ListProblem from '../pages/Problem/List';
 
 /*
 import StoreStudent from '../pages/Student/Store';
@@ -20,13 +21,13 @@ export default function Routes() {
       <Route path="/delivery/list" isPrivate component={ListDelivery} />
       <Route path="/deliveryman/list" isPrivate component={ListDeliveryMan} />
       <Route path="/recipient/list" isPrivate component={ListRecipient} />
+      <Route path="/problem/list" isPrivate component={ListProblem} />
       {/*
       <Route path="/student/store" isPrivate component={StoreStudent} />
 
       <Route path="/plan/list" isPrivate component={ListPlan} />
       <Route path="/plan/store" isPrivate component={StorePlan} />
 
-      <Route path="/register/list" isPrivate component={RegisterList} />
       <Route path="/register/store" isPrivate component={RegisterStore} />
 
       <Route path="/helpOrder" isPrivate component={HelpOrder} />
