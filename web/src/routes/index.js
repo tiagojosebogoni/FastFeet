@@ -4,10 +4,11 @@ import Route from './Route';
 
 import SignIn from '../pages/SignIn';
 import ListDelivery from '../pages/Delivery/List';
+import ListDeliveryMan from '../pages/DeliveryMan/List';
+
 /*
 import StoreStudent from '../pages/Student/Store';
 import StorePlan from '../pages/Plan/Store';
-import ListPlan from '../pages/Plan/List';
 import RegisterStore from '../pages/Register/Store';
 import RegisterList from '../pages/Register/List';
 import HelpOrder from '../pages/HelpOrder/List'; */
@@ -17,6 +18,7 @@ export default function Routes() {
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/delivery/list" isPrivate component={ListDelivery} />
+      <Route path="/deliveryman/list" isPrivate component={ListDeliveryMan} />
       {/*
       <Route path="/student/store" isPrivate component={StoreStudent} />
 

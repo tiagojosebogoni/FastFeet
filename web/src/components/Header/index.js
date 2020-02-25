@@ -21,7 +21,7 @@ export default function Header() {
         <img src={logoSmall} alt="FastFeet " height={30} />
         <Menu>
           <Link to="/delivery/list">ENCOMENDAS</Link>
-          <Link to="/plan/list">ENTREGADORES</Link>
+          <Link to="/deliveryman/list">ENTREGADORES</Link>
           <Link to="/register/list">DESTINATÁRIOS</Link>
           <Link to="/helpOrder/list ">PROBLEMAS</Link>
         </Menu>
