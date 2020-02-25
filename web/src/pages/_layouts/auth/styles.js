@@ -3,7 +3,7 @@ import { darken } from 'polished';
 
 export const Wrapper = styled.div`
   height: 100%;
-  background: #ee4d64;
+  background: #7d40e7;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,10 +11,11 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   width: 100%;
-  max-width: 360px;
+  width: 360px;
+  height: 425px;
   text-align: center;
-  background: #FFFFFF;
-  padding : 50px;
+  background: #ffffff;
+  padding: 50px;
   border-radius: 4px;
 
   form {
@@ -30,7 +31,7 @@ export const Content = styled.div`
       margin: 0 0 10px;
       &::placeholder {
         background: rgba(255, 255, 255, 0.1);
-        font-weight:bold;
+        font-weight: bold;
       }
     }
     span {
@@ -45,7 +46,7 @@ export const Content = styled.div`
     button {
       margin: 5px 0 0;
       height: 44px;
-      background: #EE4D64;
+      background: #7d40e7;
       font-weight: bold;
       color: #fff;
       border: 0;
