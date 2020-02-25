@@ -1,22 +1,53 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from '@unform/web';
+import * as Yup from 'yup';
+
 import logo from '../../assets/logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { signInRequest } from '../../store/modules/auth/actions';
 
 export default function SignIn() {
+  const formRef = useRef(null);
   const dispatch = useDispatch();
 
-  function hangleSubmit({ email, password }) {
-    dispatch(signInRequest(email, password));
+  async function handleSubmit(data) {
+    const { email, password } = data;
+
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .email('Insira um email válido.')
+          .required('Email é obrigatório'),
+        password: Yup.string()
+          .min(6, 'Mínimo de 6 caracteres')
+          .required('Senha é obrigatório')
+      });
+
+      await schema.validate(data, {
+        abortEarly: false
+      });
+
+      dispatch(signInRequest(email, password));
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errorMessages = {};
+
+        err.inner.forEach(error => {
+          errorMessages[error.path] = error.message;
+        });
+
+        formRef.current.setErrors(errorMessages);
+      }
+    }
   }
+
   return (
     <>
       <img src={logo} alt="FastFeet" height="40" />
 
-      <Form onSubmit={hangleSubmit}>
+      <Form ref={formRef} onSubmit={handleSubmit}>
         <Input
           name="email"
           type="email"

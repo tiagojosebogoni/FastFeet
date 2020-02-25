@@ -18,8 +18,10 @@ export default function Input({ name, label, ...rest }) {
   return (
     <Container>
       {label && <span>{label}</span>}
+
       <input ref={inputRef} defaultValue={defaultValue} {...rest} />
-      {error && <span style={{ color: '#f00' }}>error</span>}
+
+      {error && <span style={{ color: '#f00' }}>{error}</span>}
     </Container>
   );
 }
