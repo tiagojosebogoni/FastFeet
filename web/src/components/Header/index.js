@@ -22,7 +22,7 @@ export default function Header() {
         <Menu>
           <Link to="/delivery/list">ENCOMENDAS</Link>
           <Link to="/deliveryman/list">ENTREGADORES</Link>
-          <Link to="/register/list">DESTINATÁRIOS</Link>
+          <Link to="/recipient/list">DESTINATÁRIOS</Link>
           <Link to="/helpOrder/list ">PROBLEMAS</Link>
         </Menu>
       </Content>

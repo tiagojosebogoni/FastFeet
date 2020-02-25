@@ -5,12 +5,12 @@ import Route from './Route';
 import SignIn from '../pages/SignIn';
 import ListDelivery from '../pages/Delivery/List';
 import ListDeliveryMan from '../pages/DeliveryMan/List';
+import ListRecipient from '../pages/Recipient/List';
 
 /*
 import StoreStudent from '../pages/Student/Store';
 import StorePlan from '../pages/Plan/Store';
 import RegisterStore from '../pages/Register/Store';
-import RegisterList from '../pages/Register/List';
 import HelpOrder from '../pages/HelpOrder/List'; */
 
 export default function Routes() {
@@ -19,6 +19,7 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/delivery/list" isPrivate component={ListDelivery} />
       <Route path="/deliveryman/list" isPrivate component={ListDeliveryMan} />
+      <Route path="/recipient/list" isPrivate component={ListRecipient} />
       {/*
       <Route path="/student/store" isPrivate component={StoreStudent} />
 
