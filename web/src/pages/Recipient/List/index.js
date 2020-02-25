@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
+import api from '../../../services/api';
 import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
 
 export default function List() {
+  const [recipients, setRecipients] = useState([]);
+
+  async function loadRecipients() {
+    const response = await api.get('recipients');
+
+    setRecipients(response.data);
+  }
+
+  useEffect(() => {
+    loadRecipients();
+  });
+
   function handleNew() {}
-  function loadRecipients() {}
 
   return (
     <Container>
@@ -26,14 +38,18 @@ export default function List() {
             </tr>
           </thead>
           <tbody>
-            {/* {deliveries.map(delivery => ( */}
-            <tr key="delivery.id">
-              <td>delivery.name</td>
-              <td>delivery.address</td>
+            {recipients.map(recipient => (
+              <tr key={recipient.id}>
+                <td>#{recipient.id}</td>
+                <td>{recipient.name}</td>
+                <td>
+                  {recipient.street.trim()}, {recipient.number},{' '}
+                  {recipient.city} - {recipient.state}
+                </td>
 
-              <td>ações</td>
-            </tr>
-            {/* ))} */}
+                <td>ações</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
         {/* <Pagination load={loadPlans} pages={pages} /> */}
