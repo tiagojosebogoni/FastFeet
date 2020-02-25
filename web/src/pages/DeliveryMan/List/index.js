@@ -4,7 +4,7 @@ import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
 import api from '../../../services/api';
 
-export default function List() {
+export default function List({ history }) {
   const [deliveryMans, setDeliveryMans] = useState([]);
 
   async function loadDeliveryMan() {
@@ -17,7 +17,12 @@ export default function List() {
     loadDeliveryMan();
   });
 
-  function handleNew() {}
+  function handleNew() {
+    history.push({
+      pathname: '/deliveryman/store',
+      state: null
+    });
+  }
 
   return (
     <Container>
