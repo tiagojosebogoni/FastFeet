@@ -10,10 +10,14 @@ class DeliveryController {
   async index(req, res) {
     const deliveries = await Delivery.findAll({
       include: [
-        { model: Recipient, as: 'recipients', attributes: ['id', 'name'] },
+        {
+          model: Recipient,
+          as: 'recipients',
+          attributes: ['id', 'name', 'city', 'state'],
+        },
         { model: DeliveryMan, as: 'deliverymans', attributes: ['id', 'name'] },
       ],
-      attributes: ['id', 'product', 'start_date', 'end_date'],
+      attributes: ['id', 'product', 'canceled_at', 'start_date', 'end_date'],
       order: [['id', 'ASC']],
     });
 
