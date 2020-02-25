@@ -22,8 +22,6 @@ class Database {
       model.init(this.connection);
       model.associate && model.associate(this.connection.models);
     });
-    // .map(model =>
-    // );
   }
 }
 

@@ -1,16 +1,24 @@
 import DeliveryMan from '../models/Deliveryman';
+import File from '../models/File';
 
 class DeliveryManController {
   async index(req, res) {
     const deliveryMans = await DeliveryMan.findAll({
-      attributes: ['id', 'name', 'email'],
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
     });
 
     return res.json(deliveryMans);
   }
 
   async store(req, res) {
-    const { name, email } = req.body;
+    const { name, email, avatar_id } = req.body;
 
     const deliveryManExists = await DeliveryMan.findOne({ where: { email } });
 
@@ -18,8 +26,8 @@ class DeliveryManController {
       return res.status(401).send({ error: 'Entregador já existe' });
     }
 
-    const { id } = await DeliveryMan.create({ name, email });
-    return res.json({ id, name, email });
+    const { id } = await DeliveryMan.create({ name, email, avatar_id });
+    return res.json({ id, name, email, avatar_id });
   }
 
   async update(req, res) {
