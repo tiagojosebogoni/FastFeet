@@ -4,7 +4,7 @@ import api from '../../../services/api';
 import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
 
-export default function List() {
+export default function List({ history }) {
   const [recipients, setRecipients] = useState([]);
 
   async function loadRecipients() {
@@ -15,9 +15,14 @@ export default function List() {
 
   useEffect(() => {
     loadRecipients();
-  });
+  }, []);
 
-  function handleNew() {}
+  function handleNew() {
+    history.push({
+      pathname: '/recipient/store',
+      state: null
+    });
+  }
 
   return (
     <Container>

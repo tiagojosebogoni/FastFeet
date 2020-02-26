@@ -15,7 +15,7 @@ export default function List({ history }) {
 
   useEffect(() => {
     loadDeliveryMan();
-  });
+  }, []);
 
   function handleNew() {
     history.push({

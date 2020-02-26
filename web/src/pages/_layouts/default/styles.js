@@ -21,8 +21,7 @@ export const Wrapper = styled.div`
       padding: 0 15px;
       margin: 0 0 10px;
       &::placeholder {
-        background: rgba(255, 255, 255, 0.1);
-        font-weight: bold;
+        color: #999999;
       }
     }
     span {

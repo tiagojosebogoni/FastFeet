@@ -9,6 +9,8 @@ import ListDeliveryMan from '../pages/DeliveryMan/List';
 import StoreDeliveryman from '../pages/DeliveryMan/Store';
 
 import ListRecipient from '../pages/Recipient/List';
+import StoreRecipient from '../pages/Recipient/Store';
+
 import ListProblem from '../pages/Problem/List';
 
 /*
@@ -26,11 +28,12 @@ export default function Routes() {
       <Route path="/deliveryman/store" isPrivate component={StoreDeliveryman} />
 
       <Route path="/recipient/list" isPrivate component={ListRecipient} />
+      <Route path="/recipient/store" isPrivate component={StoreRecipient} />
+
       <Route path="/problem/list" isPrivate component={ListProblem} />
       {/*
 
       <Route path="/plan/list" isPrivate component={ListPlan} />
-      <Route path="/plan/store" isPrivate component={StorePlan} />
 
       <Route path="/register/store" isPrivate component={RegisterStore} />
 
