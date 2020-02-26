@@ -25,26 +25,24 @@ class DeliveryController {
   }
 
   async store(req, res) {
-    const { recipient_id, deliveryman_id, signature_id, product } = req.body;
+    const { recipient_id, deliveryman_id, product } = req.body;
 
     const recipientExists = await Recipient.findByPk(recipient_id);
     if (!recipientExists)
       return res.status(400).send({ error: 'Destinatário não encontrado' });
-
     const deliveryManExists = await DeliveryMan.findByPk(deliveryman_id);
     if (!deliveryManExists)
       return res.status(400).send({ error: 'Entregador não encontrado' });
 
-    const signature = await File.findByPk(signature_id);
+    /* const signature = await File.findByPk(signature_id);
     if (!signature)
       return res
         .status(400)
         .send({ error: 'Assinatura do destinatário não encontrado' });
-
+*/
     const delivery = await Delivery.create({
       recipient_id,
       deliveryman_id,
-      signature_id,
       product,
     });
 

@@ -3,6 +3,7 @@ import { Form } from '@unform/web';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Input from '../../../components/Input';
+import Select from '../../../components/Select';
 import HeaderForm from '../../../components/HeaderForm';
 
 import api from '../../../services/api';

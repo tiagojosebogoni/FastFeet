@@ -6,7 +6,7 @@ import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
 import DeliveryStatus from '../../../components/DeliveryStatus';
 
-export default function List() {
+export default function List({ history }) {
   const [deliveries, setDeliveries] = useState([]);
 
   async function loadDelivery() {
@@ -18,7 +18,9 @@ export default function List() {
   useEffect(() => {
     loadDelivery();
   });
-  function handleNew() {}
+  function handleNew() {
+    history.push('/delivery/store', { state: null });
+  }
 
   return (
     <Container>

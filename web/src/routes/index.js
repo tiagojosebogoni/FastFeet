@@ -3,7 +3,9 @@ import { Switch } from 'react-router-dom';
 import Route from './Route';
 
 import SignIn from '../pages/SignIn';
+
 import ListDelivery from '../pages/Delivery/List';
+import StoreDelivery from '../pages/Delivery/Store';
 
 import ListDeliveryMan from '../pages/DeliveryMan/List';
 import StoreDeliveryman from '../pages/DeliveryMan/Store';
@@ -23,6 +25,7 @@ export default function Routes() {
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/delivery/list" isPrivate component={ListDelivery} />
+      <Route path="/delivery/store" isPrivate component={StoreDelivery} />
 
       <Route path="/deliveryman/list" isPrivate component={ListDeliveryMan} />
       <Route path="/deliveryman/store" isPrivate component={StoreDeliveryman} />
