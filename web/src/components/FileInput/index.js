@@ -1,41 +1,36 @@
-import React, {
-  ChangeEvent,
-  useRef,
-  useEffect,
-  useCallback,
-  useState
-} from 'react';
+import React, { useRef, useEffect, useCallback, useState } from 'react';
+
 import { useField } from '@unform/core';
 
-import api from '../../services/api';
-import { Container } from './styles';
-
-export default function FileInput() {
+export default function({ name, ...rest }) {
   const inputRef = useRef(null);
-  const { fieldName, registerField, defaultValue } = useField('avatar_id');
+
+  const { fieldName, registerField, defaultValue, error } = useField(name);
   const [preview, setPreview] = useState(defaultValue);
-  const [file, setFile] = useState();
 
-  const handlePreview = useCallback(async e => {
-    const data = new FormData();
-    data.append('file', e.target.files[0]);
-    const response = await api.post('files', data);
+  const handlePreview = useCallback(e => {
+    const file = e.target.files?.[0];
 
-    const { id, url } = response.data;
-    setFile(id);
-    setPreview(url);
+    if (!file) {
+      setPreview(null);
+    }
+
+    const previewURL = URL.createObjectURL(file);
+
+    setPreview(previewURL);
   }, []);
 
   useEffect(() => {
     registerField({
-      name: 'avatar_id',
+      name: fieldName,
       ref: inputRef.current,
-      path: 'dataset.file',
+      path: 'files[0]',
 
       clearValue(ref) {
         ref.value = '';
         setPreview(null);
       },
+
       setValue(_, value) {
         setPreview(value);
       }
@@ -43,24 +38,9 @@ export default function FileInput() {
   }, [fieldName, registerField]);
 
   return (
-    <Container>
-      <label htmlFor="avatar">
-        <img
-          src={
-            preview || 'https://api.adorable.io/avatars/120/abott@adorable.png'
-          }
-          alt=""
-        />
-
-        <input
-          type="file"
-          id="avatar"
-          accept="image/*"
-          data-file={file}
-          ref={inputRef}
-          onChange={handlePreview}
-        />
-      </label>
-    </Container>
+    <>
+      {preview && <img src={preview} alt="Preview" width="100" />}
+      <input type="file" ref={inputRef} onChange={handlePreview} {...rest} />
+    </>
   );
 }

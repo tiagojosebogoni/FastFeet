@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import { MdMoreHoriz } from 'react-icons/md';
 
-import { Container, Content, Table } from './styles';
 import HeaderList from '../../../components/HeaderList';
+import Action from '../../../components/Action';
 import api from '../../../services/api';
+
+import { Container, Content, Table, ButtonAction } from './styles';
 
 export default function List({ history }) {
   const [deliveryMans, setDeliveryMans] = useState([]);
+  const [actionsVisible, setActionVisible] = useState(false);
+  const [actionsClicked, setActionClicked] = useState(0);
 
   async function loadDeliveryMan() {
     const response = await api.get('deliverymans');
 
     setDeliveryMans(response.data);
+  }
+
+  function handleEdit({ id, name, email, avatar }) {
+    history.push({
+      pathname: '/deliveryman/store',
+      state: { id, name, email, avatar }
+    });
+  }
+  async function handleDelete(id) {
+    if (window.confirm(`Confirma a exclusão do entregador?${id}`)) {
+      await api.delete(`deliverymans/${id}`);
+      loadDeliveryMan();
+    }
   }
 
   useEffect(() => {
@@ -51,7 +69,24 @@ export default function List({ history }) {
                 <td>{deliveryMan.name}</td>
                 <td>{deliveryMan.email}</td>
 
-                <td>ações</td>
+                <td>
+                  <ButtonAction
+                    onClick={() => {
+                      setActionVisible(!actionsVisible);
+                      setActionClicked(deliveryMan.id);
+                    }}
+                  >
+                    <MdMoreHoriz size={24} />
+                  </ButtonAction>
+
+                  {actionsVisible && actionsClicked === deliveryMan.id && (
+                    <Action
+                      handleEdit={() => handleEdit(deliveryMan)}
+                      handleDelete={() => handleDelete(deliveryMan.id)}
+                      id={deliveryMan.id}
+                    />
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
