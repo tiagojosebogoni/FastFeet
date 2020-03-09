@@ -8,6 +8,7 @@ export default function HeaderList({ title, history }) {
   function goBack() {
     history.goBack();
   }
+
   return (
     <Header>
       <Title>{title}</Title>

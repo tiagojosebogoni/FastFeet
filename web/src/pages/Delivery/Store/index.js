@@ -2,8 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Form } from '@unform/web';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
+
 import Input from '../../../components/Input';
-import Select from '../../../components/Select';
+import AsyncSelect from '../../../components/AsyncSelect';
 import HeaderForm from '../../../components/HeaderForm';
 
 import api from '../../../services/api';
@@ -11,8 +12,15 @@ import { Container, Line } from './styles';
 
 export default function Store({ history }) {
   const formRef = useRef(null);
+  const [initialData, setInitialData] = useState([]);
   const [recipients, setRecipients] = useState([]);
+  const [selectedRecipient, setSelectedRecipient] = useState(0);
+
   const [deliveryMans, setDeliveryMans] = useState([]);
+
+  useEffect(() => {
+    console.log(recipients);
+  }, [recipients]);
 
   async function loadDeliveryMans() {
     const response = await api.get('deliverymans');
@@ -28,7 +36,7 @@ export default function Store({ history }) {
   }
 
   async function loadRecipients() {
-    const response = await api.get('recipients');
+    const response = await api.get('/recipients');
 
     setRecipients(
       response.data.map(recipient => {
@@ -40,15 +48,18 @@ export default function Store({ history }) {
     );
   }
 
-  useEffect(() => {
-    loadRecipients();
-  }, []);
+  async function loadDelivery() {
+    /* console.log(`+++++${JSON.stringify(history.location.state.state)}`);
+    setInitialData(history.location.state.state); */
+    // setInitialData({ product: 'productt', recipients_id: 1 });
+  }
 
   useEffect(() => {
-    loadDeliveryMans();
+    loadDelivery();
   }, []);
 
   async function handleSubmit(data) {
+    console.log(`DATA:${JSON.stringify(data)}`);
     try {
       const schema = Yup.object().shape({
         recipient_id: Yup.number().required('Destinatário é obrigatório'),
@@ -93,17 +104,23 @@ export default function Store({ history }) {
   return (
     <Container>
       <HeaderForm history={history} title="Cadastro de encomendas" />
-      <Form ref={formRef} id="form" onSubmit={handleSubmit}>
+      <Form id="form" ref={formRef} onSubmit={handleSubmit}>
         <Line>
-          <Select
+          <AsyncSelect
+            noOptionsMessage={() => 'Não há Destinatários'}
+            label="Destinatário"
             name="recipient_id"
-            label="Destinatários"
-            options={recipients}
+            loadOptions={loadRecipients}
+            value={recipients}
+            onChange={setSelectedRecipient}
           />
-          <Select
-            name="deliveryman_id"
+          <AsyncSelect
+            noOptionsMessage={() => 'Não há Entregador'}
             label="Entregador"
-            options={deliveryMans}
+            name="deliveryMan_id"
+            loadOptions={loadDeliveryMans}
+            value={deliveryMans}
+            onChange={setDeliveryMans}
           />
           <Input
             name="product"

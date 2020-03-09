@@ -56,3 +56,8 @@ export const Table = styled.table`
     }
   }
 `;
+
+export const ButtonAction = styled.div`
+  border: 0;
+  background: none;
+`;

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import logoSmall from '../../assets/logo.png';
+import logoSmall from '../../assets/logo.svg';
 
 import { signOut } from '../../store/modules/auth/actions';
 import { Container, Content, Menu, Profile } from './styles';
@@ -18,12 +18,12 @@ export default function Header() {
   return (
     <Container>
       <Content>
-        <img src={logoSmall} alt="FastFeet " height={30} />
+        <img src={logoSmall} alt="FastFeet " />
         <Menu>
-          <Link to="/delivery/list">ENCOMENDAS</Link>
-          <Link to="/deliveryman/list">ENTREGADORES</Link>
-          <Link to="/recipient/list">DESTINATÁRIOS</Link>
-          <Link to="/problem/list ">PROBLEMAS</Link>
+          <NavLink to="/delivery/list">ENCOMENDAS</NavLink>
+          <NavLink to="/deliveryman/list">ENTREGADORES</NavLink>
+          <NavLink to="/recipient/list">DESTINATÁRIOS</NavLink>
+          <NavLink to="/problem/list ">PROBLEMAS</NavLink>
         </Menu>
       </Content>
       <Profile>

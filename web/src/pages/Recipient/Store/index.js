@@ -1,16 +1,27 @@
-import React, { useRef } from 'react';
-import { Form } from '@unform/web';
+import React, { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import Input from '../../../components/Input';
-import Select from '../../../components/Select';
+import MaskInput from '../../../components/MaskInput';
+
 import HeaderForm from '../../../components/HeaderForm';
 
 import api from '../../../services/api';
-import { Container, Line } from './styles';
+import { Container, Content, UnForm } from './styles';
 
 export default function Store({ history }) {
   const formRef = useRef(null);
+  const [initialData, setInitialData] = useState({});
+  const [id, setId] = useState(null);
+
+  useEffect(() => {
+    if (history.location.state) {
+      setId(history.location.state.state.id);
+      setInitialData(history.location.state.state);
+
+      console.log(history.location.state.state);
+    }
+  }, []);
 
   async function handleSubmit(data) {
     try {
@@ -33,28 +44,40 @@ export default function Store({ history }) {
         state: Yup.string()
           .max(255, 'Estado pode ter no máximo 255 caracteres')
           .required('Estado é obrigatório'),
-        zip_code: Yup.number()
-          .integer()
-          .max(8, 'Máximo de 8 dígitos')
-          .required('CEP é obrigatório')
+        zip_code: Yup.string().required('O CEP é obrigatório')
       });
 
       await schema.validate(data, {
         abortEarly: false
       });
       const { name, street, number, city, complement, state, zip_code } = data;
-      try {
-        await api.post('recipients', {
-          name,
-          street,
-          number,
-          city,
-          complement,
-          state,
-          zip_code
-        });
+      const nZip = zip_code.replace('-', '');
 
-        toast.success('Registro salvo com sucesso.');
+      try {
+        if (id === null || id === 0) {
+          await api.post('recipients', {
+            name,
+            street,
+            number,
+            city,
+            complement,
+            state,
+            zip_code: nZip
+          });
+          toast.success('Destinatário editado com sucesso!');
+        } else {
+          await api.put(`/recipients/${id}`, {
+            name,
+            street,
+            number,
+            city,
+            complement,
+            state,
+            zip_code: nZip
+          });
+
+          toast.success('Destinatário atualizado com sucesso!');
+        }
       } catch (e) {
         toast.error(`Não foi possível Salvar o destinatário. ${e}`);
       }
@@ -73,50 +96,65 @@ export default function Store({ history }) {
 
   return (
     <Container>
-      <HeaderForm history={history} title="Cadastro de destinatário" />
-      <Form ref={formRef} id="form" onSubmit={handleSubmit}>
-        <Input
-          name="name"
-          type="text"
-          label="NOME"
-          placeholder="Ludwig van Beethoven"
+      <Content>
+        <HeaderForm
+          history={history}
+          confirm
+          title="Cadastro de destinatário"
         />
-        <Line>
+        <UnForm
+          id="form"
+          ref={formRef}
+          initialData={initialData}
+          onSubmit={handleSubmit}
+        >
           <Input
-            name="street"
+            label="Nome"
+            name="name"
             type="text"
-            label="Rua"
-            placeholder="Rua Beethoven"
+            placeholder="Nome do destinatário"
           />
-          <Input
-            name="number"
-            type="number"
-            label="Número"
-            placeholder="1729"
-          />
-          <Input
-            name="complement"
-            type="text"
-            label="Complemento"
-            placeholder="Casa, AP"
-          />
-        </Line>
-        <Line>
-          <Input name="city" type="text" label="Cidade" placeholder="Diadema" />
-          <Input
-            name="state"
-            type="text"
-            label="Estado"
-            placeholder="São Paulo"
-          />
-          <Input
-            name="zip_code"
-            type="number"
-            label="CEP"
-            placeholder="09960-580"
-          />
-        </Line>
-      </Form>
+          <div>
+            <Input
+              label="Rua"
+              name="street"
+              type="text"
+              placeholder="Rua do destinatário"
+            />
+            <Input
+              label="Número"
+              name="number"
+              type="number"
+              placeholder="Número da casa"
+            />
+            <Input label="Complemento" name="complement" type="text" />
+          </div>
+          <div>
+            <Input
+              label="Cidade"
+              name="city"
+              type="text"
+              placeholder="Cidade do destinatário"
+            />
+            <Input
+              label="Estado"
+              name="state"
+              type="text"
+              placeholder="Estado do destinatário"
+            />
+            <MaskInput
+              label="CEP"
+              name="zip_code"
+              mask="99999-999"
+              maskPlaceholder={null}
+              placeholder="_____-___"
+              onKeyPress={e =>
+                e.key === 'Enter' ? formRef.current.submitForm() : null
+              }
+            />
+          </div>
+        </UnForm>
+      </Content>
     </Container>
   );
 }

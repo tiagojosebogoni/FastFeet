@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { MdMoreHoriz } from 'react-icons/md';
 
 import api from '../../../services/api';
-import { Container, Content, Table } from './styles';
+import { Container, Content, Table, ButtonAction } from './styles';
 import HeaderList from '../../../components/HeaderList';
 import DeliveryStatus from '../../../components/DeliveryStatus';
+import Action from '../../../components/Action';
 
 export default function List({ history }) {
   const [deliveries, setDeliveries] = useState([]);
+  const [actionsVisible, setActionVisible] = useState(false);
+  const [actionsClicked, setActionClicked] = useState(0);
 
   async function loadDelivery() {
     const response = await api.get('deliveries');
@@ -17,9 +20,13 @@ export default function List({ history }) {
 
   useEffect(() => {
     loadDelivery();
-  });
+  }, []);
   function handleNew() {
     history.push('/delivery/store', { state: null });
+  }
+
+  function handleEdit(object) {
+    history.push(`/delivery/store`, { state: object });
   }
 
   return (
@@ -55,15 +62,18 @@ export default function List({ history }) {
                   <DeliveryStatus delivery={delivery} />
                 </td>
                 <td>
-                  <button
-                    style={{
-                      border: 0,
-                      background: '#fff',
-                      color: '#c6c6c6'
+                  <ButtonAction
+                    onClick={() => {
+                      setActionVisible(!actionsVisible);
+                      setActionClicked(delivery.id);
                     }}
                   >
                     <MdMoreHoriz size={24} />
-                  </button>
+                  </ButtonAction>
+
+                  {actionsVisible && actionsClicked === delivery.id && (
+                    <Action handleEdit={handleEdit} object={delivery} />
+                  )}
                 </td>
               </tr>
             ))}

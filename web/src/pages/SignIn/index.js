@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo.svg';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { signInRequest } from '../../store/modules/auth/actions';

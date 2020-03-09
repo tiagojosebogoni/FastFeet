@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import PropTypes from 'prop-types';
-import { Form } from '@unform/web';
+
 import Button from '../Button';
 import { Header, Title, Component, TInput } from './styles';
 
@@ -10,7 +10,14 @@ export default function HeaderList({ title, onNew, find, buttonNew, search }) {
     <Header>
       <Title>{title}</Title>
       <Component>
-        {search && <TInput name="search" type="text" placeholder="buscar" />}
+        {search && (
+          <TInput
+            name="search"
+            type="text"
+            placeholder="buscar"
+            onChange={e => find(e.target.value)}
+          />
+        )}
         {buttonNew && (
           <Button confirm text="CADASTRAR" onClick={onNew}>
             <MdAdd size={20} />

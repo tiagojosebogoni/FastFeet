@@ -9,6 +9,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
 `;
 
 export const Content = styled.div`
@@ -16,6 +17,7 @@ export const Content = styled.div`
   height: 64px;
   align-items: center;
   margin-left: 30px;
+
   img {
     margin-right: 20px;
     padding-right: 30px;
@@ -28,12 +30,17 @@ export const Menu = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+
   a {
     margin-left: 10px;
     margin-right: 20px;
     font-size: 15px;
     font-weight: bold;
-    color: #444444;
+    color: #999;
+
+    &.active {
+      color: #444;
+    }
   }
 `;
 
@@ -42,9 +49,11 @@ export const Profile = styled.div`
   margin-left: 20px;
   padding-left: 20px;
   border-left: 1px solid #eee;
+
   div {
     text-align: right;
     margin-right: 10px;
+
     strong {
       display: block;
       font-size: 14px;
